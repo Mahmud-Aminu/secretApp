@@ -1,4 +1,5 @@
 //jshint esversion:6
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
@@ -14,6 +15,7 @@ async function main() {
     );
 };
  
+console.log(process.env.SECRET);
 app.use(express.static("public"))
 app.set('view engine','ejs')
 app.use(bodyParser.urlencoded({
@@ -25,9 +27,8 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 
-const secret = "Thisisourlittlesecret."
 userSchema.plugin(encrypt, { 
-    secret: secret,
+    secret: process.env.SECRET,
     encryptedFields: ['password'] 
 });
 
